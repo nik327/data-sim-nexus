@@ -66,6 +66,8 @@ export default {
         "navy-deep": "hsl(var(--navy-deep))",
         "slate-surface": "hsl(var(--slate-surface))",
         warning: "hsl(var(--warning))",
+        "neon-pink": "hsl(var(--neon-pink))",
+        "neon-purple": "hsl(var(--neon-purple))",
       },
       borderRadius: {
         lg: "var(--radius)",
