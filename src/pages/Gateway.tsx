@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@/context/UserContext";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle2, XCircle, Terminal, Zap, ArrowRight } from "lucide-react";
+import { CheckCircle2, XCircle, Terminal, Zap, ArrowRight, GraduationCap, Shield } from "lucide-react";
 
 interface Question {
   id: number;
