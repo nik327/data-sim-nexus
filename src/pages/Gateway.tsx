@@ -53,7 +53,7 @@ const sqlChallenge = {
 export default function Gateway() {
   const { role, promote } = useUser();
   const navigate = useNavigate();
-  const [phase, setPhase] = useState<"mc" | "sql" | "success">("mc");
+  const [phase, setPhase] = useState<"choose" | "mc" | "sql" | "success">("choose");
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(new Array(mcQuestions.length).fill(null));
   const [sqlInput, setSqlInput] = useState("");
