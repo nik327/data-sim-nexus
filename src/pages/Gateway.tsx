@@ -202,7 +202,7 @@ export default function Gateway() {
               <div className="bg-card border border-border rounded-lg p-6 mb-6">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-xs font-mono text-muted-foreground">
-                    {mcQuestions[currentQ].category} // Question {currentQ + 1}/{mcQuestions.length}
+                    Section {mcQuestions[currentQ].section}: {mcQuestions[currentQ].category} // Q{currentQ + 1}/{mcQuestions.length}
                   </span>
                 </div>
                 <p className="text-foreground font-medium mb-6">{mcQuestions[currentQ].question}</p>
