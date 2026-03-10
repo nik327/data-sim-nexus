@@ -108,10 +108,11 @@ export default function Gateway() {
     const normalized = sqlInput.toLowerCase().replace(/\s+/g, " ").trim();
     const pass =
       normalized.includes("select") &&
-      normalized.includes("from providers") &&
+      (normalized.includes("join") || normalized.includes("from providers")) &&
       normalized.includes("carbon_score") &&
-      (normalized.includes("avg") || normalized.includes("average")) &&
-      normalized.includes("where") &&
+      normalized.includes("avg") &&
+      normalized.includes("group by") &&
+      normalized.includes("having") &&
       normalized.includes(">");
     setSqlCorrect(pass);
     if (pass) {
