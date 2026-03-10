@@ -289,10 +289,17 @@ export default function Gateway() {
 
                 <div className="mb-4 p-3 bg-secondary/50 rounded border border-border">
                   <p className="text-xs font-mono text-muted-foreground mb-1">Schema:</p>
-                  <code className="text-xs text-primary">{sqlChallenge.table}</code>
+                  {sqlChallenge.tables.map((t) => (
+                    <code key={t} className="text-xs text-primary block">{t}</code>
+                  ))}
                 </div>
 
-                <p className="text-foreground font-medium mb-4">{sqlChallenge.prompt}</p>
+                <div className="mb-4 p-3 bg-secondary/30 rounded border border-border">
+                  <p className="text-xs font-mono text-muted-foreground mb-1">Scenario:</p>
+                  <p className="text-sm text-foreground">{sqlChallenge.scenario}</p>
+                </div>
+
+                <p className="text-foreground font-medium mb-4">{sqlChallenge.task}</p>
 
                 <textarea
                   value={sqlInput}
