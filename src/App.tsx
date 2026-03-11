@@ -58,7 +58,7 @@ const App = () => (
               }
             >
               <Route path="/" element={<Landing />} />
-              <Route path="/gateway" element={<Gateway />} />
+              <Route path="/internship" element={<Gateway />} />
               <Route path="/vault" element={<DataVault />} />
               <Route path="/hub" element={<WorkHub />} />
               <Route path="/academy" element={<Academy />} />

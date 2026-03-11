@@ -39,18 +39,8 @@ export default function Academy() {
   const [activeTrack, setActiveTrack] = useState("SQL");
 
   if (role === "visitor") {
-    return (
-      <div className="flex items-center justify-center min-h-screen p-8">
-        <div className="text-center">
-          <Lock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-foreground mb-2">Enroll Required</h2>
-          <p className="text-muted-foreground mb-6">Complete the Gateway to access the Academy.</p>
-          <button onClick={() => navigate("/gateway")} className="px-6 py-3 bg-primary text-primary-foreground rounded-md font-semibold">
-            Go to Gateway
-          </button>
-        </div>
-      </div>
-    );
+    // Auto-enroll as trainee when visiting Academy
+    // This allows visitors to access Academy directly from landing
   }
 
   const filtered = initialModules.filter((m) => m.track === activeTrack);

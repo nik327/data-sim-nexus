@@ -2,7 +2,7 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
 import {
   Globe,
-  Shield,
+  Briefcase,
   Database,
   LayoutDashboard,
   GraduationCap,
@@ -11,11 +11,11 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { path: "/", label: "Portal", icon: Globe, roles: ["visitor", "trainee", "junior-analyst"] },
-  { path: "/gateway", label: "Gateway", icon: Shield, roles: ["visitor", "trainee"] },
+  { path: "/", label: "Home", icon: Globe, roles: ["visitor", "trainee", "junior-analyst"] },
+  { path: "/academy", label: "Academy", icon: GraduationCap, roles: ["visitor", "trainee", "junior-analyst"] },
+  { path: "/internship", label: "Internship", icon: Briefcase, roles: ["visitor", "trainee"] },
   { path: "/vault", label: "Data Vault", icon: Database, roles: ["trainee", "junior-analyst"] },
   { path: "/hub", label: "Work Hub", icon: LayoutDashboard, roles: ["junior-analyst"] },
-  { path: "/academy", label: "Academy", icon: GraduationCap, roles: ["trainee", "junior-analyst"] },
 ];
 
 export default function AppLayout() {
