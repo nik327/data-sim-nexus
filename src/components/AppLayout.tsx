@@ -64,7 +64,16 @@ export default function AppLayout() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-border space-y-3">
+          <div className="text-[10px] font-mono text-muted-foreground">
+            Signed in as <span className="text-foreground">{name}</span>
+          </div>
+          <button
+            onClick={signOut}
+            className="w-full text-left text-xs font-mono text-muted-foreground hover:text-destructive transition-colors"
+          >
+            ▸ Sign Out
+          </button>
           <div className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
             Q&C Secure Terminal v2.4
           </div>
