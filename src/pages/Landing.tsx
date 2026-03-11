@@ -168,7 +168,7 @@ export default function Landing() {
               </Link>
             </motion.div>
           )}
-        </motion.div>
+        </div>
       </section>
 
       {/* Stats */}
