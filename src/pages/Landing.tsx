@@ -76,8 +76,7 @@ export default function Landing() {
           </motion.div>
 
           <motion.h1
-            variants={fadeUp}
-            custom={1}
+            {...fadeUp(1)}
             className="text-5xl md:text-8xl font-black leading-[0.9] tracking-tighter mb-6"
           >
             <span className="text-foreground">QUERY</span>
