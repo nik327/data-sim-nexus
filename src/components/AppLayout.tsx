@@ -19,7 +19,7 @@ const navItems = [
 ];
 
 export default function AppLayout() {
-  const { role } = useUser();
+  const { role, name, signOut } = useUser();
   const location = useLocation();
 
   const visible = navItems.filter((n) => n.roles.includes(role));
