@@ -158,7 +158,7 @@ export default function Landing() {
 
           {/* Existing access */}
           {role !== "visitor" && (
-            <motion.div variants={fadeUp} custom={5} className="mt-6">
+            <motion.div {...fadeUp(5)} className="mt-6">
               <Link
                 to="/hub"
                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-foreground font-medium rounded-md text-sm hover:bg-secondary transition"
