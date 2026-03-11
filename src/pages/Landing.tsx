@@ -65,12 +65,8 @@ export default function Landing() {
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          className="relative max-w-5xl mx-auto"
-        >
-          <motion.div variants={fadeUp} custom={0} className="flex items-center gap-2 mb-6">
+        <div className="relative max-w-5xl mx-auto">
+          <motion.div {...fadeUp(0)} className="flex items-center gap-2 mb-6">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/5">
               <Leaf className="h-3.5 w-3.5 text-primary" />
               <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-primary">
