@@ -46,14 +46,11 @@ const tracks = [
   },
 ];
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.6, ease: "easeOut" },
-  }),
-};
+const fadeUp = (i: number) => ({
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { delay: i * 0.1, duration: 0.6 },
+});
 
 export default function Landing() {
   const { role } = useUser();
