@@ -85,8 +85,7 @@ export default function Landing() {
           </motion.h1>
 
           <motion.p
-            variants={fadeUp}
-            custom={2}
+            {...fadeUp(2)}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-3 leading-relaxed"
           >
             Virtual Data Residency & Internship Simulation. We train and vet elite
