@@ -102,7 +102,7 @@ export default function Landing() {
           </motion.div>
 
           {/* Two Paths: CTA cards */}
-          <motion.div variants={fadeUp} custom={4} className="grid md:grid-cols-2 gap-5 max-w-3xl">
+          <motion.div {...fadeUp(4)} className="grid md:grid-cols-2 gap-5 max-w-3xl">
             {/* Academy */}
             <Link
               to="/academy"
