@@ -94,7 +94,7 @@ export default function Landing() {
             analysts through real-world climate logistics scenarios.
           </motion.p>
 
-          <motion.div variants={fadeUp} custom={3} className="flex items-center gap-2 mb-12">
+          <motion.div {...fadeUp(3)} className="flex items-center gap-2 mb-12">
             <Zap className="h-4 w-4 text-accent" />
             <span className="text-sm text-accent font-semibold tracking-wide">
               Simulation-as-a-Service
