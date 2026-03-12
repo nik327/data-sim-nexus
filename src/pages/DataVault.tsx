@@ -22,11 +22,11 @@ export default function DataVault() {
     return (
       <div className="flex items-center justify-center min-h-screen p-8">
         <div className="text-center">
-          <Lock className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+          <Lock className="h-16 w-16 text-muted-foreground mx-auto mb-4" strokeWidth={1.5} />
           <h2 className="text-2xl font-bold text-foreground mb-2">Restricted Access</h2>
-          <p className="text-muted-foreground mb-6">Complete the Gateway to access firm datasets.</p>
-          <button onClick={() => navigate("/gateway")} className="px-6 py-3 bg-primary text-primary-foreground rounded-md font-semibold">
-            Go to Gateway
+          <p className="text-muted-foreground mb-6">Complete the Internship to access firm datasets.</p>
+          <button onClick={() => navigate("/internship")} className="px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-semibold hover:opacity-90 transition">
+            Go to Internship
           </button>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default function DataVault() {
     <div className="min-h-screen p-8">
       <div className="max-w-5xl mx-auto">
         <div className="flex items-center gap-2 mb-8">
-          <FolderOpen className="h-5 w-5 text-primary" />
+          <FolderOpen className="h-5 w-5 text-primary" strokeWidth={1.5} />
           <h1 className="text-2xl font-bold text-foreground">Data Vault</h1>
           <span className="ml-auto text-xs font-mono text-muted-foreground uppercase tracking-wider">
             firm repository
@@ -59,15 +59,15 @@ export default function DataVault() {
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05 }}
-                    className="flex items-center gap-4 p-4 bg-card border border-border rounded-lg hover:border-primary/30 transition-colors group"
+                    className="flex items-center gap-4 p-4 bg-card rounded-2xl shadow-md shadow-primary/2 hover:shadow-primary/5 transition-all duration-200 group"
                   >
-                    <file.icon className="h-5 w-5 text-primary shrink-0" />
+                    <file.icon className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-mono text-foreground truncate">{file.name}</p>
                       <p className="text-xs text-muted-foreground">{file.type} • {file.size}</p>
                     </div>
-                    <button className="p-2 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/10 transition opacity-0 group-hover:opacity-100">
-                      <Download className="h-4 w-4" />
+                    <button className="p-2 rounded-xl text-muted-foreground hover:text-primary hover:bg-primary/10 transition opacity-0 group-hover:opacity-100">
+                      <Download className="h-4 w-4" strokeWidth={1.5} />
                     </button>
                   </motion.div>
                 ))}

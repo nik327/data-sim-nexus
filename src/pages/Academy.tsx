@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useUser } from "@/context/UserContext";
-import { useNavigate } from "react-router-dom";
-import { GraduationCap, Lock, Database, FileSpreadsheet, BarChart3, ChevronRight, CheckCircle2 } from "lucide-react";
+import { GraduationCap, Database, FileSpreadsheet, BarChart3, ChevronRight, CheckCircle2 } from "lucide-react";
 
 interface Module {
   id: string;
@@ -34,14 +33,7 @@ const trackIcons: Record<string, typeof Database> = {
 const tracks = ["SQL", "Excel", "Power BI"];
 
 export default function Academy() {
-  const { role } = useUser();
-  const navigate = useNavigate();
   const [activeTrack, setActiveTrack] = useState("SQL");
-
-  if (role === "visitor") {
-    // Auto-enroll as trainee when visiting Academy
-    // This allows visitors to access Academy directly from landing
-  }
 
   const filtered = initialModules.filter((m) => m.track === activeTrack);
   const trackProgress = Math.round(
@@ -52,7 +44,7 @@ export default function Academy() {
     <div className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-2 mb-8">
-          <GraduationCap className="h-5 w-5 text-primary" />
+          <GraduationCap className="h-5 w-5 text-primary" strokeWidth={1.5} />
           <h1 className="text-2xl font-bold text-foreground">Q&C Academy</h1>
           <span className="ml-auto text-xs font-mono text-muted-foreground uppercase tracking-wider">LMS</span>
         </div>
@@ -66,13 +58,13 @@ export default function Academy() {
               <button
                 key={track}
                 onClick={() => setActiveTrack(track)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
                   active
-                    ? "bg-primary/10 text-primary border border-primary/30"
-                    : "text-muted-foreground hover:text-foreground border border-border hover:border-primary/20"
+                    ? "bg-primary/10 text-primary shadow-sm"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/60"
                 }`}
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-4 w-4 text-primary" strokeWidth={1.5} />
                 {track}
               </button>
             );
@@ -80,7 +72,7 @@ export default function Academy() {
         </div>
 
         {/* Overall progress */}
-        <div className="bg-card border border-border rounded-lg p-5 mb-6">
+        <div className="bg-card rounded-3xl p-5 mb-6 shadow-lg shadow-primary/3">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground">
               {activeTrack} Track Progress
@@ -105,13 +97,13 @@ export default function Academy() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
-              className="bg-card border border-border rounded-lg p-5 hover:border-primary/30 transition-colors group cursor-pointer"
+              className="bg-card rounded-2xl p-5 shadow-md shadow-primary/2 hover:shadow-primary/5 transition-all duration-200 group cursor-pointer"
             >
               <div className="flex items-center gap-4">
                 {mod.progress === 100 ? (
-                  <CheckCircle2 className="h-5 w-5 text-accent shrink-0" />
+                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0" strokeWidth={1.5} />
                 ) : (
-                  <div className="w-5 h-5 rounded-full border-2 border-border shrink-0" />
+                  <div className="w-5 h-5 rounded-full border-2 border-border/60 shrink-0" />
                 )}
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground">{mod.title}</p>
@@ -124,7 +116,7 @@ export default function Academy() {
                     <div className="h-full bg-primary rounded-full" style={{ width: `${mod.progress}%` }} />
                   </div>
                   <span className="text-xs font-mono text-muted-foreground w-8 text-right">{mod.progress}%</span>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
+                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition" strokeWidth={1.5} />
                 </div>
               </div>
             </motion.div>

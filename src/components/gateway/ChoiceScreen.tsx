@@ -17,15 +17,15 @@ export default function ChoiceScreen({ onFastTrack }: ChoiceScreenProps) {
       <div className="max-w-md mx-auto">
         <button
           onClick={onFastTrack}
-          className="group w-full p-8 rounded-lg bg-card border border-border hover:border-accent/60 transition-all text-left"
+          className="group w-full p-8 rounded-3xl bg-card shadow-lg shadow-accent/5 hover:shadow-accent/10 transition-all text-left"
         >
-          <Briefcase className="h-10 w-10 text-accent mb-4 group-hover:scale-110 transition-transform" />
+          <Briefcase className="h-10 w-10 text-accent mb-4 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
           <h3 className="text-lg font-bold text-foreground mb-2">Begin Proficiency Test</h3>
           <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
             Complete the multiple-choice assessment and SQL technical sandbox to earn your Junior Analyst clearance.
           </p>
           <span className="inline-flex items-center gap-1 text-xs font-mono text-accent">
-            Start Test <ArrowRight className="h-3 w-3" />
+            Start Test <ArrowRight className="h-3 w-3" strokeWidth={1.5} />
           </span>
         </button>
       </div>
