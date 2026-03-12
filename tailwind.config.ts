@@ -12,7 +12,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        sans: ["Quicksand", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "Fira Code", "monospace"],
       },
       colors: {
@@ -59,20 +59,23 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        electric: "hsl(var(--electric))",
-        emerald: "hsl(var(--emerald))",
-        "emerald-dim": "hsl(var(--emerald-dim))",
-        navy: "hsl(var(--navy))",
-        "navy-deep": "hsl(var(--navy-deep))",
-        "slate-surface": "hsl(var(--slate-surface))",
+        sage: "hsl(var(--sage))",
+        "sage-dim": "hsl(var(--sage-dim))",
+        terracotta: "hsl(var(--terracotta))",
+        "terracotta-dim": "hsl(var(--terracotta-dim))",
+        moss: "hsl(var(--moss))",
+        "moss-deep": "hsl(var(--moss-deep))",
+        "forest-surface": "hsl(var(--forest-surface))",
+        parchment: "hsl(var(--parchment))",
+        bark: "hsl(var(--bark))",
         warning: "hsl(var(--warning))",
-        "neon-pink": "hsl(var(--neon-pink))",
-        "neon-purple": "hsl(var(--neon-purple))",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
       },
       keyframes: {
         "accordion-down": {
@@ -94,10 +97,6 @@ export default {
         "slide-up": {
           "0%": { opacity: "0", transform: "translateY(20px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
-        },
-        "typewriter": {
-          "0%": { width: "0" },
-          "100%": { width: "100%" },
         },
       },
       animation: {

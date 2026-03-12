@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, ArrowRight, Database, LayoutDashboard } from "lucide-react";
+import { CheckCircle2, ArrowRight, Database, LayoutDashboard, Leaf } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function PromotionSuccess() {
@@ -17,7 +17,7 @@ export default function PromotionSuccess() {
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
       >
-        <CheckCircle2 className="h-20 w-20 text-accent mx-auto mb-6" />
+        <CheckCircle2 className="h-20 w-20 text-primary mx-auto mb-6" strokeWidth={1.5} />
       </motion.div>
 
       <motion.h2
@@ -32,7 +32,7 @@ export default function PromotionSuccess() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="text-lg text-accent font-mono mb-2"
+        className="text-lg text-primary font-mono mb-2"
       >
         Junior Analyst
       </motion.p>
@@ -42,7 +42,7 @@ export default function PromotionSuccess() {
         transition={{ delay: 0.7 }}
         className="text-muted-foreground mb-4"
       >
-        You've cleared the Proficiency Gateway. Welcome to Q&C.
+        You've cleared the Proficiency Assessment. Welcome to Q&C.
       </motion.p>
 
       {/* Unlocked sections */}
@@ -52,11 +52,11 @@ export default function PromotionSuccess() {
         transition={{ delay: 0.9 }}
         className="flex justify-center gap-4 mb-8"
       >
-        <div className="flex items-center gap-2 px-3 py-2 rounded border border-accent/30 bg-accent/5 text-accent text-xs font-mono">
-          <Database className="h-3.5 w-3.5" /> Data Vault Unlocked
+        <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-primary/10 text-primary text-xs font-mono">
+          <Database className="h-3.5 w-3.5" strokeWidth={1.5} /> Data Vault Unlocked
         </div>
-        <div className="flex items-center gap-2 px-3 py-2 rounded border border-primary/30 bg-primary/5 text-primary text-xs font-mono">
-          <LayoutDashboard className="h-3.5 w-3.5" /> Active Tickets Unlocked
+        <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-accent/10 text-accent text-xs font-mono">
+          <LayoutDashboard className="h-3.5 w-3.5" strokeWidth={1.5} /> Active Tickets Unlocked
         </div>
       </motion.div>
 
@@ -68,15 +68,15 @@ export default function PromotionSuccess() {
       >
         <button
           onClick={() => navigate("/vault")}
-          className="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-foreground rounded-md font-medium hover:bg-secondary transition"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-secondary/60 text-foreground rounded-2xl font-medium hover:bg-secondary transition"
         >
-          <Database className="h-4 w-4" /> Data Vault
+          <Database className="h-4 w-4 text-primary" strokeWidth={1.5} /> Data Vault
         </button>
         <button
           onClick={() => navigate("/hub")}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-primary-foreground rounded-md font-semibold glow-emerald"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-semibold glow-sage hover:opacity-90 transition"
         >
-          Enter Work Hub <ArrowRight className="h-4 w-4" />
+          Enter Work Hub <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
         </button>
       </motion.div>
     </motion.div>

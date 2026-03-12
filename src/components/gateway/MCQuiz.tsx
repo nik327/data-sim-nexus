@@ -31,7 +31,7 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
 
   return (
     <motion.div key="mc" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="bg-card border border-border rounded-lg p-6 mb-6">
+      <div className="bg-card rounded-3xl p-6 mb-6 shadow-lg shadow-primary/3">
         <div className="flex items-center justify-between mb-4">
           <span className="text-xs font-mono text-muted-foreground">
             Section {mcQuestions[currentQ].section}: {mcQuestions[currentQ].category} // Q{currentQ + 1}/{mcQuestions.length}
@@ -47,14 +47,14 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
               <button
                 key={idx}
                 onClick={() => handleSelect(idx)}
-                className={`w-full text-left px-4 py-3 rounded-md border text-sm transition-all font-mono ${
+                className={`w-full text-left px-4 py-3 rounded-2xl text-sm transition-all duration-200 font-mono ${
                   isCorrect
-                    ? "border-accent bg-accent/10 text-accent"
+                    ? "bg-primary/10 text-primary shadow-sm"
                     : isWrong
-                    ? "border-destructive bg-destructive/10 text-destructive"
+                    ? "bg-destructive/10 text-destructive shadow-sm"
                     : selected
-                    ? "border-primary bg-primary/10 text-primary"
-                    : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                    ? "bg-primary/10 text-primary shadow-sm"
+                    : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
                 }`}
               >
                 <span className="mr-3 text-xs opacity-50">{String.fromCharCode(65 + idx)}.</span>
@@ -71,12 +71,12 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
             <button
               key={i}
               onClick={() => setCurrentQ(i)}
-              className={`w-8 h-8 rounded text-xs font-mono ${
+              className={`w-8 h-8 rounded-xl text-xs font-mono transition-all duration-200 ${
                 currentQ === i
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-primary text-primary-foreground shadow-sm"
                   : answers[i] !== null
                   ? "bg-secondary text-foreground"
-                  : "bg-card border border-border text-muted-foreground"
+                  : "bg-card text-muted-foreground shadow-sm"
               }`}
             >
               {i + 1}
@@ -88,19 +88,19 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
           <button
             onClick={submit}
             disabled={answers.some((a) => a === null)}
-            className="px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold text-sm disabled:opacity-40"
+            className="px-5 py-2.5 bg-primary text-primary-foreground rounded-2xl font-semibold text-sm disabled:opacity-40 hover:opacity-90 transition"
           >
             Submit Answers
           </button>
         ) : (
           <div className="flex items-center gap-2">
             {score !== null && score >= 3 ? (
-              <span className="text-sm text-accent font-mono flex items-center gap-1">
-                <CheckCircle2 className="h-4 w-4" /> {score}/{mcQuestions.length} — Advancing to SQL
+              <span className="text-sm text-primary font-mono flex items-center gap-1">
+                <CheckCircle2 className="h-4 w-4" strokeWidth={1.5} /> {score}/{mcQuestions.length} — Advancing to SQL
               </span>
             ) : (
               <span className="text-sm text-destructive font-mono flex items-center gap-1">
-                <XCircle className="h-4 w-4" /> {score}/{mcQuestions.length} — Score 3+ to advance
+                <XCircle className="h-4 w-4" strokeWidth={1.5} /> {score}/{mcQuestions.length} — Score 3+ to advance
               </span>
             )}
           </div>

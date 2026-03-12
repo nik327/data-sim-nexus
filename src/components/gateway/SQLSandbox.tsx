@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Terminal, CheckCircle2, XCircle, Play, Database } from "lucide-react";
 import { sqlChallenge, SQL_KEYWORDS } from "./GatewayData";
@@ -16,14 +16,12 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
 
   const lineCount = Math.max(sqlInput.split("\n").length, 8);
 
-  // Sync scroll between textarea and line numbers
   const handleScroll = () => {
     if (textareaRef.current && lineNumberRef.current) {
       lineNumberRef.current.scrollTop = textareaRef.current.scrollTop;
     }
   };
 
-  // Real-time keyword detection
   const keywordStatus = useMemo(() => {
     const normalized = sqlInput.toLowerCase().replace(/\s+/g, " ").trim();
     return SQL_KEYWORDS.map((kw) => ({
@@ -45,7 +43,7 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
       normalized.includes("group by") &&
       normalized.includes("having") &&
       normalized.includes(">") &&
-      (normalized.match(/select/g) || []).length >= 2; // Must have subquery
+      (normalized.match(/select/g) || []).length >= 2;
     setCorrect(pass);
     if (pass) {
       setTimeout(onPass, 1800);
@@ -54,10 +52,10 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
 
   return (
     <motion.div key="sql" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-      <div className="bg-card border border-border rounded-lg overflow-hidden">
+      <div className="bg-card rounded-3xl overflow-hidden shadow-lg shadow-primary/3">
         {/* Header Bar */}
-        <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-secondary/30">
-          <Terminal className="h-4 w-4 text-primary" />
+        <div className="flex items-center gap-2 px-4 py-3 border-b border-border/30 glass-nav">
+          <Terminal className="h-4 w-4 text-primary" strokeWidth={1.5} />
           <span className="text-xs font-mono text-primary uppercase tracking-widest font-semibold">
             Technical Sandbox
           </span>
@@ -68,16 +66,16 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
 
         <div className="p-6">
           {/* Schema Diagram */}
-          <div className="mb-5 p-4 rounded-lg border border-border bg-secondary/20">
+          <div className="mb-5 p-4 rounded-2xl bg-secondary/30">
             <div className="flex items-center gap-2 mb-3">
-              <Database className="h-3.5 w-3.5 text-primary" />
+              <Database className="h-3.5 w-3.5 text-primary" strokeWidth={1.5} />
               <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
                 Schema Diagram
               </span>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {sqlChallenge.tables.map((table) => (
-                <div key={table.name} className="p-3 rounded border border-border bg-background/60">
+                <div key={table.name} className="p-3 rounded-xl bg-background/60">
                   <div className="text-xs font-mono font-semibold text-primary mb-2">{table.name}</div>
                   {table.columns.map((col, i) => (
                     <div key={col} className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground py-0.5">
@@ -85,7 +83,7 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
                       {col === "ProviderID" && table.name === "Shipments" && <span className="text-primary text-[9px]">FK</span>}
                       {i !== 0 && col !== "ProviderID" && <span className="w-4" />}
                       {col === "ProviderID" && table.name !== "Shipments" && null}
-                      <span className={col === "Carbon_Score" ? "text-accent" : ""}>{col}</span>
+                      <span className={col === "Carbon_Score" ? "text-primary" : ""}>{col}</span>
                     </div>
                   ))}
                 </div>
@@ -94,7 +92,7 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
           </div>
 
           {/* Scenario */}
-          <div className="mb-4 p-3 rounded border border-border bg-accent/5 border-l-2 border-l-accent">
+          <div className="mb-4 p-3 rounded-2xl bg-accent/5 border-l-2 border-l-accent">
             <p className="text-xs font-mono text-muted-foreground mb-1 uppercase tracking-wider">Mission Brief</p>
             <p className="text-sm text-foreground leading-relaxed">{sqlChallenge.scenario}</p>
           </div>
@@ -106,14 +104,14 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
             {keywordStatus.map((kw) => (
               <span
                 key={kw.label}
-                className={`inline-flex items-center gap-1 px-2 py-1 rounded text-[10px] font-mono border transition-all duration-300 ${
+                className={`inline-flex items-center gap-1 px-2 py-1 rounded-xl text-[10px] font-mono transition-all duration-300 ${
                   kw.found
-                    ? "border-accent/50 bg-accent/10 text-accent"
-                    : "border-border bg-secondary/30 text-muted-foreground"
+                    ? "bg-primary/10 text-primary"
+                    : "bg-secondary/30 text-muted-foreground"
                 }`}
               >
                 {kw.found ? (
-                  <CheckCircle2 className="h-2.5 w-2.5" />
+                  <CheckCircle2 className="h-2.5 w-2.5" strokeWidth={1.5} />
                 ) : (
                   <span className="h-2.5 w-2.5 rounded-full border border-muted-foreground/40 inline-block" />
                 )}
@@ -123,12 +121,12 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
           </div>
 
           {/* Code Editor */}
-          <div className="relative rounded-lg border border-border overflow-hidden bg-background">
+          <div className="relative rounded-2xl overflow-hidden bg-background shadow-inner">
             <div className="flex">
               {/* Line Numbers */}
               <div
                 ref={lineNumberRef}
-                className="select-none py-4 pl-3 pr-2 text-right border-r border-border bg-secondary/20 overflow-hidden"
+                className="select-none py-4 pl-3 pr-2 text-right border-r border-border/30 bg-secondary/20 overflow-hidden"
                 style={{ minWidth: 44 }}
               >
                 {Array.from({ length: lineCount }, (_, i) => (
@@ -158,9 +156,9 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
               <motion.span
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
-                className={`text-sm font-mono flex items-center gap-1.5 ${correct ? "text-accent" : "text-destructive"}`}
+                className={`text-sm font-mono flex items-center gap-1.5 ${correct ? "text-primary" : "text-destructive"}`}
               >
-                {correct ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
+                {correct ? <CheckCircle2 className="h-4 w-4" strokeWidth={1.5} /> : <XCircle className="h-4 w-4" strokeWidth={1.5} />}
                 {correct
                   ? "✓ Query validated — Promoting to Junior Analyst..."
                   : "✗ Syntax check failed. Ensure GROUP BY, HAVING, and a Subquery are present."}
@@ -171,9 +169,9 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
             <button
               onClick={validate}
               disabled={!sqlInput.trim()}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-md font-semibold text-sm disabled:opacity-40 glow-blue transition-all hover:opacity-90"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-2xl font-semibold text-sm disabled:opacity-40 glow-sage transition-all hover:opacity-90"
             >
-              <Play className="h-3.5 w-3.5" />
+              <Play className="h-3.5 w-3.5" strokeWidth={1.5} />
               Validate Syntax
             </button>
           </div>

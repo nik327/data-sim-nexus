@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { motion } from "framer-motion";
-import { Terminal, Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
+import { Leaf, Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Auth() {
@@ -56,8 +56,8 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden px-4">
-      <div className="absolute inset-0 grid-pattern opacity-20" />
-      <div className="absolute inset-0 scanline pointer-events-none" />
+      <div className="absolute inset-0 grid-pattern opacity-10" />
+      <div className="absolute inset-0 organic-grain pointer-events-none" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -67,24 +67,24 @@ export default function Auth() {
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Terminal className="h-6 w-6 text-primary" />
+            <Leaf className="h-6 w-6 text-primary" strokeWidth={1.5} />
             <span className="font-bold text-lg tracking-widest text-foreground">QUERY&CO</span>
           </div>
           <h1 className="text-2xl font-bold text-foreground mb-1">
-            {mode === "login" ? "Secure Login" : "Request Access"}
+            {mode === "login" ? "Welcome Back" : "Join the Lab"}
           </h1>
-          <p className="text-sm text-muted-foreground font-mono">
-            {mode === "login" ? "Enter credentials to access the terminal" : "Create your analyst profile"}
+          <p className="text-sm text-muted-foreground">
+            {mode === "login" ? "Sign in to continue your research" : "Create your analyst profile"}
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-card border border-border rounded-lg p-6 glow-blue">
+        <div className="bg-card rounded-3xl p-6 shadow-xl shadow-primary/5 glow-sage">
           {/* Google */}
           <button
             onClick={handleGoogle}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-secondary border border-border rounded-md text-foreground font-medium text-sm hover:bg-secondary/80 transition disabled:opacity-50 mb-6"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-secondary rounded-2xl text-foreground font-medium text-sm hover:bg-secondary/80 transition disabled:opacity-50 mb-6"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -96,9 +96,9 @@ export default function Auth() {
           </button>
 
           <div className="flex items-center gap-3 mb-6">
-            <div className="flex-1 h-px bg-border" />
+            <div className="flex-1 h-px bg-border/50" />
             <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">or</span>
-            <div className="flex-1 h-px bg-border" />
+            <div className="flex-1 h-px bg-border/50" />
           </div>
 
           {/* Email form */}
@@ -109,13 +109,13 @@ export default function Auth() {
                   Display Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" strokeWidth={1.5} />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Candidate"
-                    className="w-full bg-background border border-border rounded-md pl-10 pr-4 py-2.5 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                    className="w-full bg-background border border-border/50 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary transition-shadow"
                   />
                 </div>
               </div>
@@ -126,14 +126,14 @@ export default function Auth() {
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" strokeWidth={1.5} />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="analyst@queryandco.com"
                   required
-                  className="w-full bg-background border border-border rounded-md pl-10 pr-4 py-2.5 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="w-full bg-background border border-border/50 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary transition-shadow"
                 />
               </div>
             </div>
@@ -143,7 +143,7 @@ export default function Auth() {
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary" strokeWidth={1.5} />
                 <input
                   type="password"
                   value={password}
@@ -151,7 +151,7 @@ export default function Auth() {
                   placeholder="••••••••"
                   required
                   minLength={6}
-                  className="w-full bg-background border border-border rounded-md pl-10 pr-4 py-2.5 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="w-full bg-background border border-border/50 rounded-2xl pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary transition-shadow"
                 />
               </div>
             </div>
@@ -159,32 +159,32 @@ export default function Auth() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-md font-semibold text-sm hover:opacity-90 transition disabled:opacity-50 glow-blue"
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary text-primary-foreground rounded-2xl font-semibold text-sm hover:opacity-90 transition disabled:opacity-50 glow-sage"
             >
               {loading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
                 <>
-                  {mode === "login" ? "Access Terminal" : "Create Account"}
-                  <ArrowRight className="h-4 w-4" />
+                  {mode === "login" ? "Sign In" : "Create Account"}
+                  <ArrowRight className="h-4 w-4" strokeWidth={1.5} />
                 </>
               )}
             </button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-5">
-            {mode === "login" ? "No clearance yet?" : "Already have access?"}{" "}
+            {mode === "login" ? "No account yet?" : "Already have access?"}{" "}
             <button
               onClick={() => setMode(mode === "login" ? "signup" : "login")}
               className="text-primary font-medium hover:underline"
             >
-              {mode === "login" ? "Request Access" : "Login"}
+              {mode === "login" ? "Create Account" : "Sign In"}
             </button>
           </p>
         </div>
 
         <p className="text-center text-[10px] font-mono text-muted-foreground mt-6 uppercase tracking-wider">
-          Q&C Secure Terminal v2.4 — Encrypted Connection
+          Q&C BioLab Terminal v3.0 — Secure Connection
         </p>
       </motion.div>
     </div>
