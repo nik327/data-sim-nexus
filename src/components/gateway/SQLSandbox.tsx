@@ -1,13 +1,16 @@
 import { useState, useMemo, useRef } from "react";
 import { motion } from "framer-motion";
 import { Terminal, CheckCircle2, XCircle, Play, Database } from "lucide-react";
-import { sqlChallenge, SQL_KEYWORDS } from "./GatewayData";
+import { sqlChallengeBySector } from "./GatewayData";
+import { useSector } from "@/context/SectorContext";
 
 interface SQLSandboxProps {
   onPass: () => void;
 }
 
 export default function SQLSandbox({ onPass }: SQLSandboxProps) {
+  const { sector } = useSector();
+  const challenge = sqlChallengeBySector[sector];
   const [sqlInput, setSqlInput] = useState("");
   const [checked, setChecked] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -24,26 +27,17 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
 
   const keywordStatus = useMemo(() => {
     const normalized = sqlInput.toLowerCase().replace(/\s+/g, " ").trim();
-    return SQL_KEYWORDS.map((kw) => ({
+    return challenge.keywords.map((kw) => ({
       ...kw,
       found: kw.check
         ? kw.check(normalized)
         : normalized.includes(kw.keyword.toLowerCase()),
     }));
-  }, [sqlInput]);
+  }, [sqlInput, challenge]);
 
   const validate = () => {
     setChecked(true);
-    const normalized = sqlInput.toLowerCase().replace(/\s+/g, " ").trim();
-    const pass =
-      normalized.includes("select") &&
-      (normalized.includes("join") || normalized.includes("from providers")) &&
-      normalized.includes("carbon_score") &&
-      normalized.includes("avg") &&
-      normalized.includes("group by") &&
-      normalized.includes("having") &&
-      normalized.includes(">") &&
-      (normalized.match(/select/g) || []).length >= 2;
+    const pass = challenge.validate(sqlInput);
     setCorrect(pass);
     if (pass) {
       setTimeout(onPass, 1800);
@@ -53,7 +47,6 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
   return (
     <motion.div key="sql" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
       <div className="bg-card rounded-3xl overflow-hidden shadow-lg shadow-primary/3">
-        {/* Header Bar */}
         <div className="flex items-center gap-2 px-4 py-3 border-b border-border/30 glass-nav">
           <Terminal className="h-4 w-4 text-primary" strokeWidth={1.5} />
           <span className="text-xs font-mono text-primary uppercase tracking-widest font-semibold">
@@ -65,7 +58,6 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
         </div>
 
         <div className="p-6">
-          {/* Schema Diagram */}
           <div className="mb-5 p-4 rounded-2xl bg-secondary/30">
             <div className="flex items-center gap-2 mb-3">
               <Database className="h-3.5 w-3.5 text-primary" strokeWidth={1.5} />
@@ -74,16 +66,14 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
               </span>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              {sqlChallenge.tables.map((table) => (
+              {challenge.tables.map((table) => (
                 <div key={table.name} className="p-3 rounded-xl bg-background/60">
                   <div className="text-xs font-mono font-semibold text-primary mb-2">{table.name}</div>
                   {table.columns.map((col, i) => (
                     <div key={col} className="flex items-center gap-2 text-[11px] font-mono text-muted-foreground py-0.5">
                       {i === 0 && <span className="text-accent text-[9px]">PK</span>}
-                      {col === "ProviderID" && table.name === "Shipments" && <span className="text-primary text-[9px]">FK</span>}
-                      {i !== 0 && col !== "ProviderID" && <span className="w-4" />}
-                      {col === "ProviderID" && table.name !== "Shipments" && null}
-                      <span className={col === "Carbon_Score" ? "text-primary" : ""}>{col}</span>
+                      {i !== 0 && <span className="w-4" />}
+                      <span>{col}</span>
                     </div>
                   ))}
                 </div>
@@ -91,15 +81,13 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
             </div>
           </div>
 
-          {/* Scenario */}
           <div className="mb-4 p-3 rounded-2xl bg-accent/5 border-l-2 border-l-accent">
             <p className="text-xs font-mono text-muted-foreground mb-1 uppercase tracking-wider">Mission Brief</p>
-            <p className="text-sm text-foreground leading-relaxed">{sqlChallenge.scenario}</p>
+            <p className="text-sm text-foreground leading-relaxed">{challenge.scenario}</p>
           </div>
 
-          <p className="text-foreground font-medium mb-4 text-sm">{sqlChallenge.task}</p>
+          <p className="text-foreground font-medium mb-4 text-sm">{challenge.task}</p>
 
-          {/* Keyword Detection Chips */}
           <div className="flex flex-wrap gap-2 mb-4">
             {keywordStatus.map((kw) => (
               <span
@@ -120,10 +108,8 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
             ))}
           </div>
 
-          {/* Code Editor */}
           <div className="relative rounded-2xl overflow-hidden bg-background shadow-inner">
             <div className="flex">
-              {/* Line Numbers */}
               <div
                 ref={lineNumberRef}
                 className="select-none py-4 pl-3 pr-2 text-right border-r border-border/30 bg-secondary/20 overflow-hidden"
@@ -136,7 +122,6 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
                 ))}
               </div>
 
-              {/* Textarea */}
               <textarea
                 ref={textareaRef}
                 value={sqlInput}
@@ -150,7 +135,6 @@ export default function SQLSandbox({ onPass }: SQLSandboxProps) {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex items-center justify-between mt-4">
             {checked ? (
               <motion.span

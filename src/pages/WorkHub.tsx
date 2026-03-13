@@ -1,19 +1,13 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useUser } from "@/context/UserContext";
+import { useSector } from "@/context/SectorContext";
 import { useNavigate } from "react-router-dom";
 import {
   Lock, LayoutDashboard, Clock, Users, Send, CheckCircle2, AlertCircle,
   Loader2, ChevronRight, Circle, Leaf,
 } from "lucide-react";
-
-const tasks = [
-  { id: "D01", title: "Audit Carbon Logs", status: "in-progress", day: 1 },
-  { id: "D02", title: "Validate Supplier Compliance Data", status: "todo", day: 2 },
-  { id: "D03", title: "Build Latency Distribution Chart", status: "todo", day: 3 },
-  { id: "D04", title: "Regression Analysis: Yield vs. Temperature", status: "todo", day: 4 },
-  { id: "D05", title: "Executive Summary Memo", status: "todo", day: 5 },
-];
+import { hubTasksBySector, sectorLabels } from "@/lib/sectorContent";
 
 const hierarchy = [
   { role: "Analyst", name: "You", active: true },
@@ -37,9 +31,12 @@ const statusIcons: Record<string, typeof CheckCircle2> = {
 
 export default function WorkHub() {
   const { role, reports, submitReport } = useUser();
+  const { sector } = useSector();
   const navigate = useNavigate();
   const [sprintTime, setSprintTime] = useState(8 * 60 * 60);
   const [reportTitle, setReportTitle] = useState("");
+
+  const tasks = hubTasksBySector[sector];
 
   useEffect(() => {
     const timer = setInterval(() => setSprintTime((t) => Math.max(0, t - 1)), 1000);
@@ -77,13 +74,13 @@ export default function WorkHub() {
         <div className="flex items-center gap-2 mb-8">
           <LayoutDashboard className="h-5 w-5 text-primary" strokeWidth={1.5} />
           <h1 className="text-2xl font-bold text-foreground">The Bullpen</h1>
-          <span className="ml-auto text-xs font-mono text-muted-foreground uppercase tracking-wider">work hub</span>
+          <span className="ml-auto text-xs font-mono text-muted-foreground uppercase tracking-wider">
+            {sectorLabels[sector]}
+          </span>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Task Board */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Sprint Clock */}
             <div className="bg-card rounded-3xl p-5 shadow-lg shadow-primary/3">
               <div className="flex items-center gap-2 mb-3">
                 <Clock className="h-4 w-4 text-primary" strokeWidth={1.5} />
@@ -95,7 +92,6 @@ export default function WorkHub() {
               <p className="text-xs text-muted-foreground mt-1">Current EDA Sprint Deadline</p>
             </div>
 
-            {/* Kanban */}
             <div className="bg-card rounded-3xl p-5 shadow-lg shadow-primary/3">
               <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">
                 Daily Objectives
@@ -128,14 +124,13 @@ export default function WorkHub() {
               </div>
             </div>
 
-            {/* Submit Report */}
             <div className="bg-card rounded-3xl p-5 shadow-lg shadow-primary/3">
               <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground mb-4">Submit Report</h2>
               <div className="flex gap-3">
                 <input
                   value={reportTitle}
                   onChange={(e) => setReportTitle(e.target.value)}
-                  placeholder="Report title (e.g., Carbon Audit Q1)"
+                  placeholder="Report title..."
                   className="flex-1 bg-background border border-border/50 rounded-2xl px-4 py-2.5 text-sm font-mono text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary transition-shadow"
                 />
                 <button
@@ -166,9 +161,7 @@ export default function WorkHub() {
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-6">
-            {/* Reporting Chain */}
             <div className="bg-card rounded-3xl p-5 shadow-lg shadow-primary/3">
               <div className="flex items-center gap-2 mb-4">
                 <Users className="h-4 w-4 text-primary" strokeWidth={1.5} />
@@ -198,7 +191,6 @@ export default function WorkHub() {
               </div>
             </div>
 
-            {/* Status card */}
             <div className="bg-card rounded-3xl p-5 shadow-lg shadow-primary/5 glow-sage">
               <div className="flex items-center gap-2 mb-2">
                 <Leaf className="h-3.5 w-3.5 text-primary" strokeWidth={1.5} />

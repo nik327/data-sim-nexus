@@ -1,21 +1,14 @@
 import { motion } from "framer-motion";
 import { useUser } from "@/context/UserContext";
+import { useSector } from "@/context/SectorContext";
 import { useNavigate } from "react-router-dom";
-import { FolderOpen, FileText, FileJson, FileSpreadsheet, Download, Lock } from "lucide-react";
-
-const files = [
-  { name: "Logistics_Latency.csv", type: "CSV", size: "2.4 MB", icon: FileText, category: "Logistics" },
-  { name: "Carbon_Emissions.json", type: "JSON", size: "1.8 MB", icon: FileJson, category: "Climate" },
-  { name: "Agricultural_Yield_Variance.xlsx", type: "XLSX", size: "4.1 MB", icon: FileSpreadsheet, category: "Agriculture" },
-  { name: "Fleet_Routing_Metrics.csv", type: "CSV", size: "3.2 MB", icon: FileText, category: "Logistics" },
-  { name: "Supplier_Compliance_Audit.json", type: "JSON", size: "890 KB", icon: FileJson, category: "Compliance" },
-  { name: "Regional_Climate_Indices.xlsx", type: "XLSX", size: "5.6 MB", icon: FileSpreadsheet, category: "Climate" },
-];
-
-const categories = [...new Set(files.map((f) => f.category))];
+import { FolderOpen, Download, Lock } from "lucide-react";
+import { vaultFilesBySector } from "@/lib/sectorContent";
+import { sectorLabels } from "@/lib/sectorContent";
 
 export default function DataVault() {
   const { role } = useUser();
+  const { sector } = useSector();
   const navigate = useNavigate();
 
   if (role === "visitor") {
@@ -33,6 +26,9 @@ export default function DataVault() {
     );
   }
 
+  const files = vaultFilesBySector[sector];
+  const categories = [...new Set(files.map((f) => f.category))];
+
   return (
     <div className="min-h-screen p-8">
       <div className="max-w-5xl mx-auto">
@@ -40,7 +36,7 @@ export default function DataVault() {
           <FolderOpen className="h-5 w-5 text-primary" strokeWidth={1.5} />
           <h1 className="text-2xl font-bold text-foreground">Data Vault</h1>
           <span className="ml-auto text-xs font-mono text-muted-foreground uppercase tracking-wider">
-            firm repository
+            {sectorLabels[sector]}
           </span>
         </div>
 

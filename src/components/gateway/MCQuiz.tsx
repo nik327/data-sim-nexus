@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { CheckCircle2, XCircle } from "lucide-react";
-import { mcQuestions } from "./GatewayData";
+import { mcQuestionsBySector } from "./GatewayData";
+import { useSector } from "@/context/SectorContext";
 
 interface MCQuizProps {
   onPass: () => void;
 }
 
 export default function MCQuiz({ onPass }: MCQuizProps) {
+  const { sector } = useSector();
+  const questions = mcQuestionsBySector[sector];
   const [currentQ, setCurrentQ] = useState(0);
-  const [answers, setAnswers] = useState<(number | null)[]>(new Array(mcQuestions.length).fill(null));
+  const [answers, setAnswers] = useState<(number | null)[]>(new Array(questions.length).fill(null));
   const [submitted, setSubmitted] = useState(false);
 
   const handleSelect = (idx: number) => {
@@ -21,28 +24,28 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
 
   const submit = () => {
     setSubmitted(true);
-    const score = answers.filter((a, i) => a === mcQuestions[i].correct).length;
+    const score = answers.filter((a, i) => a === questions[i].correct).length;
     if (score >= 3) {
       setTimeout(onPass, 1500);
     }
   };
 
-  const score = submitted ? answers.filter((a, i) => a === mcQuestions[i].correct).length : null;
+  const score = submitted ? answers.filter((a, i) => a === questions[i].correct).length : null;
 
   return (
     <motion.div key="mc" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <div className="bg-card rounded-3xl p-6 mb-6 shadow-lg shadow-primary/3">
         <div className="flex items-center justify-between mb-4">
           <span className="text-xs font-mono text-muted-foreground">
-            Section {mcQuestions[currentQ].section}: {mcQuestions[currentQ].category} // Q{currentQ + 1}/{mcQuestions.length}
+            Section {questions[currentQ].section}: {questions[currentQ].category} // Q{currentQ + 1}/{questions.length}
           </span>
         </div>
-        <p className="text-foreground font-medium mb-6">{mcQuestions[currentQ].question}</p>
+        <p className="text-foreground font-medium mb-6">{questions[currentQ].question}</p>
         <div className="space-y-3">
-          {mcQuestions[currentQ].options.map((opt, idx) => {
+          {questions[currentQ].options.map((opt, idx) => {
             const selected = answers[currentQ] === idx;
-            const isCorrect = submitted && idx === mcQuestions[currentQ].correct;
-            const isWrong = submitted && selected && idx !== mcQuestions[currentQ].correct;
+            const isCorrect = submitted && idx === questions[currentQ].correct;
+            const isWrong = submitted && selected && idx !== questions[currentQ].correct;
             return (
               <button
                 key={idx}
@@ -67,7 +70,7 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
 
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          {mcQuestions.map((_, i) => (
+          {questions.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrentQ(i)}
@@ -96,11 +99,11 @@ export default function MCQuiz({ onPass }: MCQuizProps) {
           <div className="flex items-center gap-2">
             {score !== null && score >= 3 ? (
               <span className="text-sm text-primary font-mono flex items-center gap-1">
-                <CheckCircle2 className="h-4 w-4" strokeWidth={1.5} /> {score}/{mcQuestions.length} — Advancing to SQL
+                <CheckCircle2 className="h-4 w-4" strokeWidth={1.5} /> {score}/{questions.length} — Advancing to SQL
               </span>
             ) : (
               <span className="text-sm text-destructive font-mono flex items-center gap-1">
-                <XCircle className="h-4 w-4" strokeWidth={1.5} /> {score}/{mcQuestions.length} — Score 3+ to advance
+                <XCircle className="h-4 w-4" strokeWidth={1.5} /> {score}/{questions.length} — Score 3+ to advance
               </span>
             )}
           </div>
