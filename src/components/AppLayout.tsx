@@ -1,5 +1,7 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
+import { useSector } from "@/context/SectorContext";
+import { sectorLabels } from "@/lib/sectorContent";
 import {
   Globe,
   Briefcase,
@@ -8,6 +10,7 @@ import {
   GraduationCap,
   Leaf,
   ChevronRight,
+  ArrowLeftRight,
 } from "lucide-react";
 
 const navItems = [
@@ -20,13 +23,14 @@ const navItems = [
 
 export default function AppLayout() {
   const { role, name, signOut } = useUser();
+  const { sector } = useSector();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const visible = navItems.filter((n) => n.roles.includes(role));
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar — Glassmorphism */}
       <aside className="w-64 shrink-0 glass-sidebar border-r border-border/40 flex flex-col">
         <div className="p-5 border-b border-border/30">
           <Link to="/" className="flex items-center gap-2">
@@ -41,6 +45,13 @@ export default function AppLayout() {
               {role}
             </span>
           </div>
+          <button
+            onClick={() => navigate("/sector")}
+            className="mt-2 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors"
+          >
+            <ArrowLeftRight className="h-3 w-3" strokeWidth={1.5} />
+            {sectorLabels[sector]}
+          </button>
         </div>
 
         <nav className="flex-1 p-3 space-y-1">
@@ -80,7 +91,6 @@ export default function AppLayout() {
         </div>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 overflow-auto">
         <Outlet />
       </main>

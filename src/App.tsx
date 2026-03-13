@@ -4,9 +4,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { UserProvider, useUser } from "@/context/UserContext";
+import { SectorProvider, useSector } from "@/context/SectorContext";
 import AppLayout from "@/components/AppLayout";
 import Auth from "./pages/Auth";
 import Landing from "./pages/Landing";
+import SectorSelect from "./pages/SectorSelect";
 import Gateway from "./pages/Gateway";
 import DataVault from "./pages/DataVault";
 import WorkHub from "./pages/WorkHub";
@@ -45,27 +47,37 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <UserProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/auth" element={<AuthRoute />} />
-            <Route
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/" element={<Landing />} />
-              <Route path="/internship" element={<Gateway />} />
-              <Route path="/vault" element={<DataVault />} />
-              <Route path="/hub" element={<WorkHub />} />
-              <Route path="/academy" element={<Academy />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <SectorProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/auth" element={<AuthRoute />} />
+              <Route
+                path="/sector"
+                element={
+                  <ProtectedRoute>
+                    <SectorSelect />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route path="/" element={<Landing />} />
+                <Route path="/internship" element={<Gateway />} />
+                <Route path="/vault" element={<DataVault />} />
+                <Route path="/hub" element={<WorkHub />} />
+                <Route path="/academy" element={<Academy />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </SectorProvider>
       </UserProvider>
     </TooltipProvider>
   </QueryClientProvider>
