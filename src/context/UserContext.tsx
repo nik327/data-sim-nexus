@@ -34,7 +34,12 @@ export const useUser = () => {
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState<UserRole>("visitor");
+  const [role, setRole] = useState<UserRole>(() => {
+    // Fast session recovery from localStorage
+    const cached = localStorage.getItem("qc_userStatus");
+    if (cached === "Junior Analyst") return "junior-analyst";
+    return "visitor";
+  });
   const [name, setName] = useState("Candidate");
   const [reports, setReports] = useState<ReportStatus[]>([]);
 
