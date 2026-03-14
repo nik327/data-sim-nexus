@@ -34,7 +34,12 @@ export const useUser = () => {
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState<UserRole>("visitor");
+  const [role, setRole] = useState<UserRole>(() => {
+    // Fast session recovery from localStorage
+    const cached = localStorage.getItem("qc_userStatus");
+    if (cached === "Junior Analyst") return "junior-analyst";
+    return "visitor";
+  });
   const [name, setName] = useState("Candidate");
   const [reports, setReports] = useState<ReportStatus[]>([]);
 
@@ -83,7 +88,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         .select("role")
         .eq("user_id", userId)
         .single();
-      if (progress?.role) setRole(progress.role as UserRole);
+      if (progress?.role) {
+        setRole(progress.role as UserRole);
+        if (progress.role === "junior-analyst") {
+          localStorage.setItem("qc_userStatus", "Junior Analyst");
+        }
+      }
 
       // Load reports
       const { data: dbReports } = await supabase
@@ -110,6 +120,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const promote = async (to: UserRole) => {
     setRole(to);
+    // Persist to localStorage for fast session recovery
+    if (to === "junior-analyst") {
+      localStorage.setItem("qc_userStatus", "Junior Analyst");
+    }
     if (user) {
       await supabase
         .from("user_progress")
@@ -162,6 +176,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    localStorage.removeItem("qc_userStatus");
     setRole("visitor");
     setName("Candidate");
     setReports([]);
