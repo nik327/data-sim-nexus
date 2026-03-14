@@ -110,6 +110,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const promote = async (to: UserRole) => {
     setRole(to);
+    // Persist to localStorage for fast session recovery
+    if (to === "junior-analyst") {
+      localStorage.setItem("qc_userStatus", "Junior Analyst");
+    }
     if (user) {
       await supabase
         .from("user_progress")
