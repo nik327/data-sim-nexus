@@ -171,6 +171,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    localStorage.removeItem("qc_userStatus");
     setRole("visitor");
     setName("Candidate");
     setReports([]);
