@@ -69,6 +69,24 @@ export default {
         parchment: "hsl(var(--parchment))",
         bark: "hsl(var(--bark))",
         warning: "hsl(var(--warning))",
+        // Sector: Finance
+        gold: {
+          DEFAULT: "hsl(46, 65%, 52%)",
+          dim: "hsl(46, 40%, 35%)",
+        },
+        navy: {
+          DEFAULT: "hsl(217, 33%, 17%)",
+          dim: "hsl(217, 25%, 12%)",
+        },
+        // Sector: Medical
+        cyan: {
+          DEFAULT: "hsl(179, 34%, 52%)",
+          dim: "hsl(179, 25%, 35%)",
+        },
+        lavender: {
+          DEFAULT: "hsl(268, 30%, 60%)",
+          dim: "hsl(268, 20%, 40%)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
