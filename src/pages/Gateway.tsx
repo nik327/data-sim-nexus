@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
+import { Navigate } from "react-router-dom";
 import { useUser } from "@/context/UserContext";
-import { useNavigate } from "react-router-dom";
-import { CheckCircle2, Briefcase } from "lucide-react";
-import ProficiencyTest from "@/components/gateway/ProficiencyTest";
-import PromotionSuccess from "@/components/gateway/PromotionSuccess";
 
 export default function Gateway() {
+  const { role } = useUser();
+
+  // Redirect to the new assessment briefing flow
+  if (role === "junior-analyst") {
+    return <Navigate to="/hub" replace />;
+  }
+  return <Navigate to="/assessment-briefing" replace />;
+}
   const { role, promote } = useUser();
   const navigate = useNavigate();
   const [phase, setPhase] = useState<"test" | "success">("test");

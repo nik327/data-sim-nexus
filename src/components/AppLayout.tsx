@@ -16,7 +16,7 @@ import {
 const navItems = [
   { path: "/", label: "Home", icon: Globe, roles: ["visitor", "trainee", "junior-analyst"] },
   { path: "/academy", label: "Academy", icon: GraduationCap, roles: ["visitor", "trainee", "junior-analyst"] },
-  { path: "/internship", label: "Internship", icon: Briefcase, roles: ["visitor", "trainee"] },
+  { path: "/assessment-briefing", label: "Certification", icon: Briefcase, roles: ["visitor", "trainee"] },
   { path: "/vault", label: "Data Vault", icon: Database, roles: ["trainee", "junior-analyst"] },
   { path: "/hub", label: "Work Hub", icon: LayoutDashboard, roles: ["junior-analyst"] },
 ];
