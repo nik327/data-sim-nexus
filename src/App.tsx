@@ -10,6 +10,8 @@ import Auth from "./pages/Auth";
 import Landing from "./pages/Landing";
 import SectorSelect from "./pages/SectorSelect";
 import Gateway from "./pages/Gateway";
+import AssessmentBriefing from "./pages/AssessmentBriefing";
+import Assessment from "./pages/Assessment";
 import DataVault from "./pages/DataVault";
 import WorkHub from "./pages/WorkHub";
 import Academy from "./pages/Academy";
