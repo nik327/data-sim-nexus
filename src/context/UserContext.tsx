@@ -43,13 +43,22 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [name, setName] = useState("Candidate");
   const [reports, setReports] = useState<ReportStatus[]>([]);
 
+  const BYPASS_EMAILS = ["ndikhopamla1@gmail.com"];
+
+  const maybeBypass = (email?: string) => {
+    if (email && BYPASS_EMAILS.includes(email.toLowerCase())) {
+      setRole("junior-analyst");
+      localStorage.setItem("qc_userStatus", "Junior Analyst");
+    }
+  };
+
   // Listen to auth changes
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setUser(session?.user ?? null);
         if (session?.user) {
-          // Defer data loading to avoid Supabase auth deadlock
+          maybeBypass(session.user.email);
           setTimeout(() => loadUserData(session.user.id), 0);
         } else {
           setRole("visitor");
@@ -63,6 +72,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
+        maybeBypass(session.user.email);
         loadUserData(session.user.id);
       } else {
         setLoading(false);
