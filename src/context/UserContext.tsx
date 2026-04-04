@@ -76,7 +76,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const loadUserData = async (userId: string) => {
+  const loadUserData = async (userId: string, email?: string) => {
     try {
       // Load profile
       const { data: profile } = await supabase
