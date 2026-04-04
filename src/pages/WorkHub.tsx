@@ -65,7 +65,7 @@ export default function WorkHub() {
     setTimeout(() => setCrisisActive(false), 500);
   }, [addCrisisWin, addCrisisLoss]);
 
-  if (false && role !== "junior-analyst") {
+  if (role !== "junior-analyst") {
     return (
       <div className="flex items-center justify-center min-h-screen p-8">
         <div className="text-center">
