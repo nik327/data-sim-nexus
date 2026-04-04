@@ -45,12 +45,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const BYPASS_EMAILS = ["ndikhopamla1@gmail.com"];
 
-  const maybeBypass = (email?: string) => {
-    if (email && BYPASS_EMAILS.includes(email.toLowerCase())) {
-      setRole("junior-analyst");
-      localStorage.setItem("qc_userStatus", "Junior Analyst");
-    }
-  };
+  const isBypassUser = (email?: string) =>
+    !!email && BYPASS_EMAILS.includes(email.toLowerCase());
 
   // Listen to auth changes
   useEffect(() => {
