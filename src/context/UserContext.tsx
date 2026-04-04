@@ -45,12 +45,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const BYPASS_EMAILS = ["ndikhopamla1@gmail.com"];
 
-  const maybeBypass = (email?: string) => {
-    if (email && BYPASS_EMAILS.includes(email.toLowerCase())) {
-      setRole("junior-analyst");
-      localStorage.setItem("qc_userStatus", "Junior Analyst");
-    }
-  };
+  const isBypassUser = (email?: string) =>
+    !!email && BYPASS_EMAILS.includes(email.toLowerCase());
 
   // Listen to auth changes
   useEffect(() => {
@@ -58,8 +54,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       async (_event, session) => {
         setUser(session?.user ?? null);
         if (session?.user) {
-          maybeBypass(session.user.email);
-          setTimeout(() => loadUserData(session.user.id), 0);
+          setTimeout(() => loadUserData(session.user.id, session.user.email), 0);
         } else {
           setRole("visitor");
           setName("Candidate");
@@ -72,8 +67,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        maybeBypass(session.user.email);
-        loadUserData(session.user.id);
+        loadUserData(session.user.id, session.user.email);
       } else {
         setLoading(false);
       }
@@ -82,7 +76,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const loadUserData = async (userId: string) => {
+  const loadUserData = async (userId: string, email?: string) => {
     try {
       // Load profile
       const { data: profile } = await supabase
@@ -98,7 +92,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         .select("role")
         .eq("user_id", userId)
         .single();
-      if (progress?.role) {
+      if (isBypassUser(email)) {
+        setRole("junior-analyst");
+        localStorage.setItem("qc_userStatus", "Junior Analyst");
+      } else if (progress?.role) {
         setRole(progress.role as UserRole);
         if (progress.role === "junior-analyst") {
           localStorage.setItem("qc_userStatus", "Junior Analyst");
