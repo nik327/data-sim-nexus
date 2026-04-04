@@ -92,7 +92,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         .select("role")
         .eq("user_id", userId)
         .single();
-      if (progress?.role) {
+      if (isBypassUser(email)) {
+        setRole("junior-analyst");
+        localStorage.setItem("qc_userStatus", "Junior Analyst");
+      } else if (progress?.role) {
         setRole(progress.role as UserRole);
         if (progress.role === "junior-analyst") {
           localStorage.setItem("qc_userStatus", "Junior Analyst");
