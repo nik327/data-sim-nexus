@@ -54,8 +54,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       async (_event, session) => {
         setUser(session?.user ?? null);
         if (session?.user) {
-          maybeBypass(session.user.email);
-          setTimeout(() => loadUserData(session.user.id), 0);
+          setTimeout(() => loadUserData(session.user.id, session.user.email), 0);
         } else {
           setRole("visitor");
           setName("Candidate");
@@ -68,8 +67,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
-        maybeBypass(session.user.email);
-        loadUserData(session.user.id);
+        loadUserData(session.user.id, session.user.email);
       } else {
         setLoading(false);
       }
